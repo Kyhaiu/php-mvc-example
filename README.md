@@ -26,14 +26,15 @@ Este projeto demonstra um simples **cadastro de usuário** utilizando o padrão 
 │ │ │ └── create.php # Página de cadastro
 │ │ └── layout.php # Layout base
 ├── /public
-│ ├── index.php # Ponto de entrada da aplicação
-│ └── /css
-│ └── tailwind.css # CSS gerado pelo Tailwind
+│ ├── 404.php     # Página de item URL inválida
+│ └── layout.php  # Layout base
 ├── /core
-│ ├── Controller.php # Classe base para os controladores
-│ ├── Model.php # Classe base para os modelos
-│ └── Database.php # Conexão com o banco de dados
+│ ├── Controller.php  # Classe base para os controladores
+│ ├── Model.php       # Classe base para os modelos
+│ └── Database.php    # Conexão com o banco de dados
+└── index.php # Ponto de entrada da aplicação
 └── README.md # Este arquivo
+
 ```
 
 ---
@@ -42,7 +43,6 @@ Este projeto demonstra um simples **cadastro de usuário** utilizando o padrão 
 
 1️⃣ Clone ou baixe o repositório em seu servidor local (XAMPP, MAMP, etc.).  
 2️⃣ Crie o banco de dados MySQL:
-
 
 ```sql
 CREATE DATABASE meubanco;
@@ -62,14 +62,7 @@ CREATE TABLE users (
 self::$instance = new PDO('mysql:host=localhost;dbname=meubanco', 'root', '');
 ```
 
-4️⃣ Gere o CSS do Tailwind (opcional, se quiser atualizar):
-
-```bash
-npx tailwindcss -i ./src/input.css -o ./public/css/tailwind.css --watch
-```
-
 5️⃣ Acesse no navegador:
-
 
 ## 🚀 Tecnologias Utilizadas
 
