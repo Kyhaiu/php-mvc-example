@@ -39,6 +39,17 @@ $users = $users ?? [];
         </script>
     <?php endif; ?>
 
+    <?php if (!empty($_GET['deleted'])): ?>
+        <div class="fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded shadow">
+            Usuário excluído com sucesso!
+        </div>
+        <script>
+            setTimeout(function() {
+                document.querySelector('.fixed').remove();
+            }, 2000);
+        </script>
+    <?php endif; ?>
+
     <h1 class="text-2xl font-bold mb-4">Lista de Usuários</h1>
 
     <table class="min-w-full bg-white border border-gray-300">
@@ -47,6 +58,7 @@ $users = $users ?? [];
                 <th class="py-2 px-4 border-b">ID</th>
                 <th class="py-2 px-4 border-b">Nome</th>
                 <th class="py-2 px-4 border-b">Email</th>
+                <th class="py-2 p2-4 border-b">Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -56,6 +68,13 @@ $users = $users ?? [];
                         <td class="py-2 px-4 border-b"><?= htmlspecialchars($user['id']) ?></td>
                         <td class="py-2 px-4 border-b"><?= htmlspecialchars($user['name']) ?></td>
                         <td class="py-2 px-4 border-b"><?= htmlspecialchars($user['email']) ?></td>
+                        <td class="py-2 px-4 border-b">
+                            <a href="/php-mvc-example/index.php?controller=user&action=edit&id=<?= $user['id'] ?>" class="text-blue-500 hover:underline">Editar</a>
+                            <a href="/php-mvc-example/index.php?controller=user&action=delete&id=<?= $user['id'] ?>" 
+                              class="text-red-500 hover:underline" 
+                              onclick="return confirm('Tem certeza que deseja excluir este usuário?');">Excluir</a>
+                        
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>

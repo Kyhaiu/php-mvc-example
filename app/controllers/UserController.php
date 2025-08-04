@@ -56,4 +56,70 @@ class UserController extends Controller
         // Carrega a view de listagem passando os usuários como parâmetro
         $this->render('user/index', ['users' => $users]);
     }
+
+    /**
+     * ----------------------------------------------------------------------------
+     * Método edit()
+     * ----------------------------------------------------------------------------
+     *
+     * Busca o usuário selecionado e atualiza o registro com as informações novas.
+     */
+    public function edit()
+    {
+        $userModel = new User();
+        $id = $_GET['id'] ?? null;
+
+        if (!$id) {
+            echo "Usuário não encontrado!";
+            return;
+        }
+
+        // Se formulário enviado (POST)
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userModel->update($id, $_POST);
+            
+            session_start();
+            $_SESSION['flash_message'] = 'Usuário ' . $id . ' Atualizado com sucesso!';
+            header('Location: /php-mvc-example/index.php?controller=user&action=index');
+            
+            exit;
+        }
+
+        // Busca o usuário para preencher o formulário
+        $user = $userModel->findById($id);
+
+        if (!$user) {
+            echo "Usuário não encontrado!";
+            return;
+        }
+
+        // Renderiza a view passando os dados do usuário
+        $this->render('user/edit', ['user' => $user]);
+    }
+
+    /**
+     * ----------------------------------------------------------------------------
+     * Método delete()
+     * ----------------------------------------------------------------------------
+     *
+     * Deleta o usuário selecionado
+     */
+    public function delete()
+    {
+        $id = $_GET['id'] ?? null;
+
+        if (!$id) {
+            echo "ID inválido!";
+            return;
+        }
+
+        $userModel = new User();
+
+        if ($userModel->delete($id)) {
+            header('Location: /php-mvc-example/index.php?controller=user&action=index&deleted=1');
+            exit;
+        } else {
+            echo "Erro ao excluir usuário!";
+        }
+    }
 }

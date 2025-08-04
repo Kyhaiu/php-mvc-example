@@ -49,4 +49,44 @@ class User extends Model
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * Atualiza os dados de um usuário pelo ID.
+     * @param int $id ID do usuário
+     * @param array $data Dados (name, email, password)
+     */
+    public function update($id, $data)
+    {
+        $stmt = $this->db->prepare("UPDATE users SET name = :name, email = :email, password = :password WHERE id = :id");
+        return $stmt->execute([
+            ':name' => $data['name'],
+            ':email' => $data['email'],
+            ':password' => password_hash($data['password'], PASSWORD_DEFAULT),
+            ':id' => $id
+        ]);
+    }
+
+    /**
+     * Busca um usuário pelo ID.
+     * @param int $id
+     * @return array|false
+     */
+    public function findById($id)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Exclui um usuário pelo ID.
+     * @param int $id
+     * @return bool
+     */
+    public function delete($id)
+    {
+        $stmt = $this->db->prepare("DELETE FROM users WHERE id = :id");
+        return $stmt->execute([':id' => $id]);
+    }
+
 }
